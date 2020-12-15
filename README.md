@@ -15,5 +15,15 @@ Fedora system, I just did a Docker image where it's installed on Ubuntu.
 
 # Run
 
+    # Should be run once after each reboot or added
+    # to ~/.bashrc or whatever.
     xhost +
+    docker run --name=amazon-workspaces \
+               --env "DISPLAY" \
+               --volume "$HOME/.Xauthority:/root/.Xauthority:rw" \
+               --network host \
+               amazon-workspaces
+
+    # And after you close the window, you may restart the container
+    # with the following command
     docker start amazon-workspaces
