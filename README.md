@@ -17,16 +17,17 @@ Fedora system, I just did a Docker image where it's installed on Ubuntu.
 
     # Should be run once after each reboot or added
     # to ~/.bashrc or whatever.
-    xhost +
-    docker run --name=amazon-workspaces \
-               --env WAYLAND_DISPLAY=$WAYLAND_DISPLAY \
-               --env XDG_RUNTIME_DIR=/tmp/xdg \
-               --env GDK_BACKEND=wayland \
-               --env DISPLAY=$DISPLAY \
-               --volume $XDG_RUNTIME_DIR:/tmp/xdg \
-               --volume /tmp/.X11-unix:/tmp/.X11-unix:rw \
-               --network host \
-               amazon-workspaces
+    xhost +local:docker
+    
+    docker run --rm \
+      --name=amazon-workspaces \
+      --env DISPLAY=$DISPLAY \
+      --env GDK_BACKEND=x11 \
+      --volume /tmp/.X11-unix:/tmp/.X11-unix:rw \
+      --device /dev/dri \
+      --ipc=host \
+      --network host \
+      amazon-workspaces
 
     # And after you close the window, you may restart the container
     # with the following command
