@@ -19,8 +19,12 @@ Fedora system, I just did a Docker image where it's installed on Ubuntu.
     # to ~/.bashrc or whatever.
     xhost +
     docker run --name=amazon-workspaces \
-               --env "DISPLAY" \
-               --volume "$HOME/.Xauthority:/root/.Xauthority:rw" \
+               --env WAYLAND_DISPLAY=$WAYLAND_DISPLAY \
+               --env XDG_RUNTIME_DIR=/tmp/xdg \
+               --env GDK_BACKEND=wayland \
+               --env DISPLAY=$DISPLAY \
+               --volume $XDG_RUNTIME_DIR:/tmp/xdg \
+               --volume /tmp/.X11-unix:/tmp/.X11-unix:rw \
                --network host \
                amazon-workspaces
 
